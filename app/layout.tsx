@@ -6,11 +6,14 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "ZCC — Z Code Crafts",
+    default: "ZCC – Z Code Crafts",
     template: "%s | ZCC",
   },
   description:
     "Z Code Crafts is a Zambia-based digital studio creating websites, brands and thoughtful digital experiences.",
+  verification: {
+    google: "b28KQdlxsUZ1N1suzToCFFn37jX4JPPsa9B0h9N2eEM",
+  },
 };
 
 export default function RootLayout({
