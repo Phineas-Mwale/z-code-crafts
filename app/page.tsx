@@ -1,12 +1,17 @@
+
 import Link from "next/link";
 import {
   ArrowDown,
   ArrowRight,
   ArrowUpRight,
+  CheckCircle2,
   Code2,
-  Palette,
+  Leaf,
   Layers3,
+  Palette,
+  Recycle,
   Sparkles,
+  Weight,
 } from "lucide-react";
 
 const services = [
@@ -36,30 +41,34 @@ const services = [
   },
 ];
 
-const projects = [
+const studioSteps = [
   {
-    name: "Drop2Earn",
-    type: "SUSTAINABILITY · WEB APPLICATION",
-    description:
-      "A digital platform concept connecting waste collection, verification and recycling rewards.",
     number: "01",
-    color: "bg-[#e4eddf]",
-    textColor: "text-[#28543b]",
+    title: "Understand",
+    description:
+      "We explore the problem, the people involved, and what success should look like before choosing a solution.",
+    icon: Sparkles,
   },
   {
-    name: "Creative work",
-    type: "DESIGN · BRAND IDENTITY",
-    description:
-      "A growing collection of visual identities, design experiments and creative work.",
     number: "02",
-    color: "bg-[#e9e7f1]",
-    textColor: "text-[#51466f]",
+    title: "Craft",
+    description:
+      "We bring design and technology together to create a clear, useful, and thoughtful experience.",
+    icon: Code2,
+  },
+  {
+    number: "03",
+    title: "Refine",
+    description:
+      "We test the details, improve the experience, and keep the original purpose in focus.",
+    icon: ArrowUpRight,
   },
 ];
 
 export default function Home() {
   return (
     <>
+      {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="container grid min-h-[660px] items-center gap-14 py-20 lg:grid-cols-[1.15fr_0.85fr] lg:py-24">
           <div className="motion-fade-up">
@@ -83,6 +92,7 @@ export default function Home() {
               <Link href="/projects" className="btn btn-primary">
                 Explore our work <ArrowUpRight size={17} />
               </Link>
+
               <Link href="/contact" className="btn btn-secondary">
                 Start a project <ArrowRight size={16} />
               </Link>
@@ -112,7 +122,9 @@ export default function Home() {
               <div className="flex items-center justify-between border-b border-[#e6e7e0] pb-5">
                 <div>
                   <p className="text-xs text-[#85877f]">OUR APPROACH</p>
-                  <p className="mt-1 text-lg font-semibold">Ideas into impact.</p>
+                  <p className="mt-1 text-lg font-semibold">
+                    Ideas into impact.
+                  </p>
                 </div>
                 <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#287747] text-white">
                   <Sparkles size={21} />
@@ -180,7 +192,11 @@ export default function Home() {
         </a>
       </section>
 
-      <section id="services" className="section border-t border-[#e6e7e0] bg-white">
+      {/* SERVICES */}
+      <section
+        id="services"
+        className="section border-t border-[#e6e7e0] bg-white"
+      >
         <div className="container">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div>
@@ -212,12 +228,15 @@ export default function Home() {
                       {service.number}
                     </span>
                   </div>
+
                   <h3 className="mt-7 text-xl font-semibold">
                     {service.title}
                   </h3>
+
                   <p className="mt-3 min-h-[84px] text-sm leading-7 text-[#686b63]">
                     {service.description}
                   </p>
+
                   <div className="mt-5 flex flex-wrap gap-2">
                     {service.tags.map((tag) => (
                       <span
@@ -244,70 +263,260 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section">
+      {/* FEATURED PROJECT */}
+      <section className="section overflow-hidden">
         <div className="container">
           <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
             <div>
-              <p className="eyebrow">SELECTED WORK</p>
-              <h2 className="section-title">Ideas we&apos;re bringing to life.</h2>
+              <p className="eyebrow">A PROJECT WITH PURPOSE</p>
+              <h2 className="section-title">
+                More than an idea. A solution in progress.
+              </h2>
             </div>
+
             <Link
               href="/projects"
               className="inline-flex items-center gap-2 text-sm font-semibold text-[#287747]"
             >
-              View all projects <ArrowRight size={16} />
+              Explore all projects <ArrowRight size={16} />
             </Link>
           </div>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            {projects.map((project) => (
-              <Link
-                href="/projects"
-                key={project.number}
-                className="group overflow-hidden rounded-xl border border-[#e6e7e0] bg-white"
-              >
-                <div
-                  className={`motion-fade-up relative flex min-h-[260px] items-center justify-center overflow-hidden ${project.color}`}
-                >
-                  <div className="absolute left-5 top-5 text-xs font-medium text-black/50">
-                    PROJECT / {project.number}
+          <div className="mt-10 overflow-hidden rounded-2xl border border-[#dce3ee] bg-white shadow-[0_25px_80px_rgba(30,50,25,0.07)]">
+            <div className="grid lg:grid-cols-[0.9fr_1.1fr]">
+              {/* PROJECT STORY */}
+              <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
+                <div className="flex w-fit items-center gap-2 rounded-full border border-[#dce6d8] bg-[#f4f8f1] px-3 py-2 text-[10px] font-bold tracking-[1.5px] text-[#287747]">
+                  <Leaf size={13} />
+                  SUSTAINABILITY · DIGITAL PRODUCT
+                </div>
+
+                <h3 className="mt-7 text-4xl font-semibold tracking-tight sm:text-5xl">
+                  Drop<span className="text-[#287747]">2</span>Earn
+                </h3>
+
+                <p className="mt-5 text-base leading-8 text-[#686b63]">
+                  What if recyclable waste could create value for the people
+                  who collect it? Drop2Earn explores that possibility through
+                  a digital platform for collection, verification and
+                  rewards.
+                </p>
+
+                <div className="mt-7 space-y-4">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2
+                      size={19}
+                      className="mt-0.5 shrink-0 text-[#287747]"
+                    />
+                    <div>
+                      <p className="text-sm font-semibold">
+                        Collect and verify
+                      </p>
+                      <p className="mt-1 text-sm leading-6 text-[#686b63]">
+                        Record recyclable material and verify the collected
+                        weight.
+                      </p>
+                    </div>
                   </div>
-                  {project.number === "01" ? (
-                    <div className="flex h-32 w-32 rotate-[-8deg] items-center justify-center rounded-[30px] bg-[#287747] text-white shadow-xl transition-transform duration-300 group-hover:rotate-0">
-                      <span className="text-5xl font-bold">D</span>
+
+                  <div className="flex items-start gap-3">
+                    <CheckCircle2
+                      size={19}
+                      className="mt-0.5 shrink-0 text-[#287747]"
+                    />
+                    <div>
+                      <p className="text-sm font-semibold">
+                        Calculate earnings
+                      </p>
+                      <p className="mt-1 text-sm leading-6 text-[#686b63]">
+                        Turn verified quantities into a transparent earnings
+                        record.
+                      </p>
                     </div>
-                  ) : (
-                    <div className="flex gap-3 transition-transform duration-300 group-hover:scale-105">
-                      <span className="h-24 w-12 rounded-full bg-[#51466f]" />
-                      <span className="mt-6 h-24 w-12 rounded-full bg-[#c3b8dc]" />
-                      <span className="h-24 w-12 rounded-full bg-white" />
-                    </div>
-                  )}
-                  <div className="absolute bottom-5 right-5 flex h-10 w-10 items-center justify-center rounded-full bg-white transition-transform group-hover:rotate-45">
-                    <ArrowUpRight size={18} />
                   </div>
                 </div>
 
-                <div className="p-6 sm:p-7">
-                  <p className="text-[10px] font-bold tracking-[1.5px] text-[#287747]">
-                    {project.type}
-                  </p>
-                  <h3 className="mt-3 text-2xl font-semibold">
-                    {project.name}
-                  </h3>
-                  <p className="mt-3 max-w-lg text-sm leading-7 text-[#686b63]">
-                    {project.description}
-                  </p>
-                  <span className={`mt-5 inline-block text-sm font-semibold ${project.textColor}`}>
-                    Explore project <ArrowRight className="ml-1 inline" size={15} />
-                  </span>
+                <div className="mt-9 flex flex-wrap gap-3">
+                  <a
+                    href="https://drop2earn-zambia.netlify.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-primary"
+                  >
+                    Explore Drop2Earn <ArrowUpRight size={17} />
+                  </a>
+
+                  <Link href="/projects" className="btn btn-secondary">
+                    View case studies <ArrowRight size={16} />
+                  </Link>
                 </div>
-              </Link>
-            ))}
+
+                <p className="mt-5 text-xs leading-6 text-[#85877f]">
+                  An evolving project exploring practical digital
+                  sustainability solutions in Zambia.
+                </p>
+              </div>
+
+              {/* STYLISED PRODUCT PREVIEW */}
+              <div className="relative overflow-hidden bg-[#07101f] p-5 text-white sm:p-8 lg:p-10">
+                <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-blue-600/20 blur-3xl" />
+                <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-emerald-500/10 blur-3xl" />
+
+                <div className="relative">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-5">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500 text-white">
+                        <Recycle size={22} />
+                      </div>
+                      <div>
+                        <p className="font-semibold">Drop2Earn</p>
+                        <p className="mt-1 text-xs text-slate-400">
+                          Collection overview
+                        </p>
+                      </div>
+                    </div>
+
+                    <span className="rounded-full border border-blue-400/30 bg-blue-400/10 px-3 py-1.5 text-[10px] font-semibold tracking-wider text-blue-300">
+                      CONCEPT PREVIEW
+                    </span>
+                  </div>
+
+                  <div className="mt-7">
+                    <p className="text-sm text-slate-400">
+                      Verified collection
+                    </p>
+                    <div className="mt-2 flex items-end justify-between gap-4">
+                      <div>
+                        <span className="text-4xl font-semibold tracking-tight sm:text-5xl">
+                          9.6
+                        </span>
+                        <span className="ml-2 text-sm text-slate-400">
+                          kg
+                        </span>
+                      </div>
+
+                      <div className="mb-1 flex items-center gap-1.5 text-xs text-emerald-300">
+                        <CheckCircle2 size={15} />
+                        Verified
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 grid grid-cols-2 gap-3">
+                    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
+                      <div className="flex items-center gap-2 text-xs text-slate-400">
+                        <Weight size={15} />
+                        Verified weight
+                      </div>
+                      <p className="mt-3 text-2xl font-semibold">9.6 kg</p>
+                    </div>
+
+                    <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
+                      <div className="flex items-center gap-2 text-xs text-slate-400">
+                        <Sparkles size={15} />
+                        Example earnings
+                      </div>
+                      <p className="mt-3 text-2xl font-semibold text-emerald-300">
+                        K48.00
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 rounded-xl border border-white/10 bg-white/[0.04] p-4">
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <p className="text-sm font-medium">
+                          PET plastic collection
+                        </p>
+                        <p className="mt-1 text-xs text-slate-400">
+                          Example transaction
+                        </p>
+                      </div>
+                      <span className="rounded-lg bg-emerald-400/10 px-3 py-2 text-xs font-medium text-emerald-300">
+                        Complete
+                      </span>
+                    </div>
+
+                    <div className="mt-5 h-2 overflow-hidden rounded-full bg-white/10">
+                      <div className="h-full w-full rounded-full bg-gradient-to-r from-blue-500 to-emerald-400" />
+                    </div>
+
+                    <div className="mt-2 flex justify-between text-[10px] text-slate-400">
+                      <span>Collected</span>
+                      <span>Verified</span>
+                      <span>Calculated</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 flex items-start gap-2 text-xs leading-5 text-slate-400">
+                    <Sparkles size={14} className="mt-0.5 shrink-0" />
+                    Illustrative demo values only, not a current market rate or
+                    a real payout.
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* INSIDE THE STUDIO */}
+      <section className="border-y border-[#e6e7e0] bg-[#fafaf8]">
+        <div className="container py-12 sm:py-16">
+          <details className="group">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-6 [&::-webkit-details-marker]:hidden">
+              <div>
+                <p className="eyebrow">INSIDE THE STUDIO</p>
+                <h2 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
+                  Good work starts with good questions.
+                </h2>
+                <p className="muted mt-3 max-w-2xl text-sm">
+                  Discover how we turn an early idea into a considered digital
+                  experience.
+                </p>
+                <span className="mt-4 inline-block text-sm font-semibold text-[#287747]">
+                  Explore our approach
+                </span>
+              </div>
+
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#dce6d8] bg-white text-2xl text-[#287747] transition-transform duration-300 group-open:rotate-45">
+                +
+              </span>
+            </summary>
+
+            <div className="mt-8 grid gap-4 border-t border-[#e6e7e0] pt-8 sm:grid-cols-3">
+              {studioSteps.map((step) => {
+                const Icon = step.icon;
+
+                return (
+                  <article
+                    key={step.number}
+                    className="rounded-xl border border-[#e6e7e0] bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-[#b8cfb6] hover:shadow-lg sm:p-6"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-bold text-[#287747]">
+                        {step.number}
+                      </span>
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#e6efe2] text-[#287747]">
+                        <Icon size={20} />
+                      </div>
+                    </div>
+
+                    <h3 className="mt-5 text-lg font-semibold">
+                      {step.title}
+                    </h3>
+                    <p className="muted mt-3 text-sm leading-7">
+                      {step.description}
+                    </p>
+                  </article>
+                );
+              })}
+            </div>
+          </details>
+        </div>
+      </section>
+
+      {/* CONTACT CTA */}
       <section className="border-y border-[#e6e7e0] bg-[#edf2e9]">
         <div className="container grid gap-8 py-16 md:grid-cols-[1fr_auto] md:items-center md:py-20">
           <div>
@@ -320,6 +529,7 @@ export default function Home() {
               already exists, we&apos;d love to hear what you&apos;re working on.
             </p>
           </div>
+
           <Link href="/contact" className="btn btn-primary w-fit">
             Tell us about it <ArrowUpRight size={17} />
           </Link>
