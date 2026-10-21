@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   --background: #f7f9fc;
@@ -297,7 +298,7 @@ header {
   display: grid;
   place-items: center;
   background: #f7f9fc;
-  animation: loader-exit 500ms ease 450ms forwards;
+  animation: loader-exit 700ms ease 1200ms forwards;
 }
 
 .dark .page-loader {
@@ -431,4 +432,35 @@ header {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Team page heading visibility fix */
+.team-hero-title,
+.team-section-title {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.team-heading-main {
+  color: #101827 !important;
+}
+
+.team-heading-accent {
+  color: #2563eb !important;
+}
+
+html.dark .team-heading-main {
+  color: #f8fafc !important;
+}
+
+html.dark .team-heading-accent {
+  color: #60a5fa !important;
+}
+
+html:not(.dark) .team-section-title {
+  color: #101827 !important;
+}
+
+html.dark .team-section-title {
+  color: #f8fafc !important;
 }

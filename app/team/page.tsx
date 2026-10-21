@@ -1,5 +1,6 @@
 
 import type { Metadata } from "next";
+import type { ComponentType } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -11,13 +12,13 @@ import {
   Sparkles,
   ExternalLink,
 } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 import {
   Github,
   Linkedin,
   Instagram,
   Facebook,
 } from "lucide-brands";
+
 export const metadata: Metadata = {
   title: "Our Team",
   description:
@@ -27,7 +28,11 @@ export const metadata: Metadata = {
 type SocialLink = {
   label: string;
   href: string;
-  icon: LucideIcon;
+  icon: ComponentType<{
+    size?: number | string;
+    strokeWidth?: number;
+    className?: string;
+  }>;
 };
 
 type TeamMember = {
@@ -170,16 +175,16 @@ function ProfileCard({
       </div>
 
       <div className="p-5 sm:p-7">
-        <p className="min-h-[72px] text-sm leading-7 text-[#5f6b7a] dark:text-[#a1a1aa] sm:text-base">
+        <p className="min-h-[72px] text-sm leading-7 text-[#475569] dark:text-[#a1a1aa] sm:text-base">
           {member.description}
         </p>
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-[#dce3ee] pt-5 dark:border-[#262626]">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[1.5px] text-[#7b8798] dark:text-[#737373]">
+            <p className="text-xs font-semibold uppercase tracking-[1.5px] text-[#475569] dark:text-[#a1a1aa]">
               Connect
             </p>
-            <p className="mt-1 text-xs text-[#5f6b7a] dark:text-[#a1a1aa]">
+            <p className="mt-1 text-xs text-[#475569] dark:text-[#a1a1aa]">
               Find me online
             </p>
           </div>
@@ -196,9 +201,13 @@ function ProfileCard({
                   rel="noopener noreferrer"
                   aria-label={`${member.name} on ${social.label}`}
                   title={social.label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-[#dce3ee] bg-[#f7f9fc] text-[#344256] transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:bg-blue-600 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:border-[#303030] dark:bg-[#111111] dark:text-[#e5e7eb] dark:hover:border-blue-400 dark:hover:bg-blue-500 dark:focus-visible:ring-offset-black sm:h-11 sm:w-11"
+                  className="group/social flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#cbd5e1] bg-[#f7f9fc] text-[#1e293b] transition-all duration-300 hover:-translate-y-1 hover:border-blue-600 hover:bg-blue-600 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:border-[#303030] dark:bg-[#111111] dark:text-[#e5e7eb] dark:hover:border-blue-400 dark:hover:bg-blue-500 dark:focus-visible:ring-offset-black sm:h-11 sm:w-11"
                 >
-                  <Icon size={18} strokeWidth={1.8} />
+                  <Icon
+                    size={18}
+                    strokeWidth={1.8}
+                    className="text-[#1e293b] group-hover/social:text-white dark:text-[#e5e7eb] dark:group-hover/social:text-white"
+                  />
                 </a>
               );
             })}
@@ -216,7 +225,7 @@ export default function TeamPage() {
         <div className="container py-12 sm:py-16">
           <Link
             href="/"
-            className="mb-12 inline-flex items-center gap-2 text-sm text-[#5f6b7a] transition-colors hover:text-blue-600 dark:text-[#a1a1aa] dark:hover:text-blue-400"
+            className="mb-12 inline-flex items-center gap-2 text-sm text-[#475569] transition-colors hover:text-blue-600 dark:text-[#a1a1aa] dark:hover:text-blue-400"
           >
             <ArrowRight size={16} className="rotate-180" />
             Back home
@@ -226,13 +235,11 @@ export default function TeamPage() {
             <div className="motion-fade-up">
               <p className="eyebrow">The people behind the pixels</p>
 
-              <h1 className="mt-5 max-w-3xl text-5xl font-bold leading-[1.04] tracking-[-2.5px] sm:text-7xl">
+              <h1 className="team-hero-title mt-5 max-w-3xl text-5xl font-bold leading-[1.04] tracking-[-2.5px] sm:text-7xl">
                 Small team.
                 <br />
-                <span className="text-[#2563eb] dark:text-blue-400">
-                  Big-picture
-                </span>{" "}
-                thinking.
+                <span className="team-heading-accent">Big-picture</span>{" "}
+                <span className="team-heading-main">thinking.</span>
               </h1>
 
               <p className="muted mt-7 max-w-xl">
@@ -251,7 +258,7 @@ export default function TeamPage() {
 
               <div className="relative overflow-hidden rounded-2xl bg-[#101827] p-7 text-white sm:p-10">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold uppercase tracking-[2px] text-white/60">
+                  <span className="text-xs font-semibold uppercase tracking-[2px] text-white/75">
                     Our approach
                   </span>
                   <Users size={21} className="text-blue-300" />
@@ -268,7 +275,7 @@ export default function TeamPage() {
                 </div>
 
                 <div className="flex items-end justify-between border-t border-white/20 pt-5">
-                  <p className="max-w-[220px] text-sm leading-6 text-white/65">
+                  <p className="max-w-[220px] text-sm leading-6 text-white/80">
                     Different skills. Shared ambition. Meaningful work.
                   </p>
                   <span className="text-5xl font-bold tracking-tighter text-blue-300">
@@ -288,9 +295,9 @@ export default function TeamPage() {
           <div className="mb-10 grid gap-5 md:grid-cols-[1fr_0.65fr] md:items-end">
             <div>
               <p className="eyebrow">Meet the team</p>
-              <h2 className="section-title">
+              <h2 className="team-section-title section-title">
                 The people making{" "}
-                <span className="text-[#2563eb] dark:text-blue-400">
+                <span className="team-heading-accent">
                   things happen.
                 </span>
               </h2>
@@ -318,11 +325,13 @@ export default function TeamPage() {
         <div className="container">
           <div className="grid gap-10 md:grid-cols-[0.8fr_1.2fr]">
             <div>
-              <p className="eyebrow">What brings us together</p>
-              <h2 className="section-title">
+              <p className="eyebrow text-[#1d4ed8] dark:text-blue-400">
+                What brings us together
+              </p>
+              <h2 className="section-title text-[#101827] dark:text-[#f8fafc]">
                 Good work starts with the right mindset.
               </h2>
-              <p className="muted mt-5 max-w-md">
+              <p className="mt-5 max-w-md text-base leading-7 text-[#475569] dark:text-[#cbd5e1]">
                 We believe the best digital solutions come from understanding
                 the problem, respecting the people who will use the product,
                 and caring about the details.
@@ -336,23 +345,23 @@ export default function TeamPage() {
                 return (
                   <article
                     key={principle.number}
-                    className="grid gap-4 border-b border-[#dce3ee] py-7 sm:grid-cols-[60px_1fr] sm:gap-6 dark:border-[#262626]"
+                    className="grid gap-4 border-b border-[#cbd5e1] py-7 sm:grid-cols-[60px_1fr] sm:gap-6 dark:border-[#262626]"
                   >
-                    <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#dbeafe] text-blue-600 dark:bg-[#111827] dark:text-blue-400">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[#dbeafe] text-blue-700 dark:bg-[#111827] dark:text-blue-400">
                       <Icon size={21} strokeWidth={1.7} />
                     </div>
 
                     <div>
                       <div className="flex flex-wrap items-center gap-3">
-                        <h3 className="text-lg font-bold">
+                        <h3 className="text-lg font-bold text-[#101827] dark:text-[#f8fafc]">
                           {principle.title}
                         </h3>
-                        <span className="text-xs text-[#7b8798] dark:text-[#737373]">
+                        <span className="text-xs font-semibold text-[#475569] dark:text-[#a1a1aa]">
                           {principle.number}
                         </span>
                       </div>
 
-                      <p className="muted mt-2 text-sm">
+                      <p className="mt-2 text-sm leading-7 text-[#475569] dark:text-[#cbd5e1]">
                         {principle.description}
                       </p>
                     </div>
@@ -364,15 +373,17 @@ export default function TeamPage() {
         </div>
       </section>
 
-      <section className="border-y border-[#dce3ee] bg-[#eaf2ff] py-16 dark:border-[#262626] dark:bg-[#0b1220] sm:py-20">
+      <section className="border-y border-[#cbd5e1] bg-[#eaf2ff] py-16 dark:border-[#262626] dark:bg-[#0b1220] sm:py-20">
         <div className="container">
           <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
             <div>
-              <p className="eyebrow">Have an idea?</p>
-              <h2 className="mt-4 max-w-2xl text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
+              <p className="eyebrow text-[#1d4ed8] dark:text-blue-400">
+                Have an idea?
+              </p>
+              <h2 className="mt-4 max-w-2xl text-3xl font-bold leading-tight tracking-tight text-[#101827] sm:text-4xl dark:text-[#f8fafc]">
                 Good things happen when the right people work together.
               </h2>
-              <p className="muted mt-4 max-w-2xl">
+              <p className="mt-4 max-w-2xl text-base leading-7 text-[#475569] dark:text-[#cbd5e1]">
                 Have a project, a question or an idea worth exploring? Let’s
                 start a conversation.
               </p>

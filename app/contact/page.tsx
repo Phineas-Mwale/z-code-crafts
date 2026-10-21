@@ -11,7 +11,13 @@ import {
   MessageCircle,
   Send,
   CheckCircle2,
+  AlertCircle,
+  ExternalLink,
 } from "lucide-react";
+
+const WHATSAPP_URL = "https://wa.me/260973146216";
+
+type FormStatus = "idle" | "sending" | "success" | "error";
 
 function ContactForm() {
   const searchParams = useSearchParams();
@@ -25,96 +31,108 @@ function ContactForm() {
     message: "",
   });
 
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<FormStatus>("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setStatus("sending");
+    setErrorMessage("");
 
-    const subject = encodeURIComponent(
-      `ZCC project enquiry — ${form.service || "General enquiry"}`
-    );
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-    const body = encodeURIComponent(
-      `Hello Z Code Crafts,
+      const result = await response.json();
 
-Name: ${form.name}
-Email: ${form.email}
-Service: ${form.service || "Not specified"}
-Budget: ${form.budget || "Not specified"}
+      if (!response.ok) {
+        throw new Error(
+          result.error || "Your message could not be sent. Please try again."
+        );
+      }
 
-Project details:
-${form.message}
-
-Sent from the ZCC website.`
-    );
-
-    setSubmitted(true);
-    window.location.href = `mailto:hello@zcodecrafts.com?subject=${subject}&body=${body}`;
+      setStatus("success");
+      setForm({
+        name: "",
+        email: "",
+        service: "",
+        budget: "",
+        message: "",
+      });
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again or contact us on WhatsApp."
+      );
+    }
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
-          <label
-            htmlFor="name"
-            className="mb-2 block text-sm font-semibold"
-          >
+          <label htmlFor="name" className="mb-2 block text-sm font-semibold">
             Your name *
           </label>
           <input
             id="name"
+            name="name"
+            autoComplete="name"
             required
+            maxLength={100}
             value={form.name}
             onChange={(event) =>
               setForm({ ...form, name: event.target.value })
             }
             placeholder="What should we call you?"
-            className="w-full rounded-md border border-[#e6e7e0] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#287747] focus:ring-2 focus:ring-[#287747]/10"
+            className="w-full rounded-md border border-[#e6e7e0] bg-white px-4 py-3 text-sm text-[#101827] outline-none transition focus:border-[#287747] focus:ring-2 focus:ring-[#287747]/10"
           />
         </div>
 
         <div>
-          <label
-            htmlFor="email"
-            className="mb-2 block text-sm font-semibold"
-          >
+          <label htmlFor="email" className="mb-2 block text-sm font-semibold">
             Email address *
           </label>
           <input
             id="email"
+            name="email"
             type="email"
+            autoComplete="email"
             required
+            maxLength={254}
             value={form.email}
             onChange={(event) =>
               setForm({ ...form, email: event.target.value })
             }
             placeholder="you@example.com"
-            className="w-full rounded-md border border-[#e6e7e0] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#287747] focus:ring-2 focus:ring-[#287747]/10"
+            className="w-full rounded-md border border-[#e6e7e0] bg-white px-4 py-3 text-sm text-[#101827] outline-none transition focus:border-[#287747] focus:ring-2 focus:ring-[#287747]/10"
           />
         </div>
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2">
         <div>
-          <label
-            htmlFor="service"
-            className="mb-2 block text-sm font-semibold"
-          >
+          <label htmlFor="service" className="mb-2 block text-sm font-semibold">
             What do you need?
           </label>
           <select
             id="service"
+            name="service"
             value={form.service}
             onChange={(event) =>
               setForm({ ...form, service: event.target.value })
             }
-            className="w-full rounded-md border border-[#e6e7e0] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#287747] focus:ring-2 focus:ring-[#287747]/10"
+            className="w-full rounded-md border border-[#e6e7e0] bg-white px-4 py-3 text-sm text-[#101827] outline-none transition focus:border-[#287747] focus:ring-2 focus:ring-[#287747]/10"
           >
             <option value="">Select a service</option>
             <option>Website Development</option>
             <option>App Development</option>
-            <option>Brand Identity & Design</option>
+            <option>Brand Identity &amp; Design</option>
             <option>UI/UX Design</option>
             <option>Digital Solutions</option>
             <option>Website Support</option>
@@ -123,19 +141,17 @@ Sent from the ZCC website.`
         </div>
 
         <div>
-          <label
-            htmlFor="budget"
-            className="mb-2 block text-sm font-semibold"
-          >
+          <label htmlFor="budget" className="mb-2 block text-sm font-semibold">
             Estimated budget
           </label>
           <select
             id="budget"
+            name="budget"
             value={form.budget}
             onChange={(event) =>
               setForm({ ...form, budget: event.target.value })
             }
-            className="w-full rounded-md border border-[#e6e7e0] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#287747] focus:ring-2 focus:ring-[#287747]/10"
+            className="w-full rounded-md border border-[#e6e7e0] bg-white px-4 py-3 text-sm text-[#101827] outline-none transition focus:border-[#287747] focus:ring-2 focus:ring-[#287747]/10"
           >
             <option value="">Prefer to discuss</option>
             <option>Under K2,000</option>
@@ -148,43 +164,60 @@ Sent from the ZCC website.`
       </div>
 
       <div>
-        <label
-          htmlFor="message"
-          className="mb-2 block text-sm font-semibold"
-        >
+        <label htmlFor="message" className="mb-2 block text-sm font-semibold">
           Tell us about your idea *
         </label>
         <textarea
           id="message"
+          name="message"
           required
+          maxLength={5000}
           rows={6}
           value={form.message}
           onChange={(event) =>
             setForm({ ...form, message: event.target.value })
           }
           placeholder="What are you hoping to build, improve, or achieve?"
-          className="w-full resize-y rounded-md border border-[#e6e7e0] bg-white px-4 py-3 text-sm leading-6 outline-none transition focus:border-[#287747] focus:ring-2 focus:ring-[#287747]/10"
+          className="w-full resize-y rounded-md border border-[#e6e7e0] bg-white px-4 py-3 text-sm leading-6 text-[#101827] outline-none transition focus:border-[#287747] focus:ring-2 focus:ring-[#287747]/10"
         />
       </div>
 
       <button
         type="submit"
-        className="btn btn-primary w-full sm:w-auto"
+        disabled={status === "sending"}
+        className="btn btn-primary w-full sm:w-auto disabled:cursor-not-allowed disabled:opacity-60"
       >
-        Prepare enquiry <Send size={16} />
+        {status === "sending" ? "Sending enquiry..." : "Send enquiry"}
+        <Send size={16} />
       </button>
 
-      {submitted && (
-        <p className="flex items-start gap-2 text-sm leading-6 text-[#287747]">
+      {status === "success" && (
+        <p role="status" className="flex items-start gap-2 text-sm leading-6 text-[#287747]">
           <CheckCircle2 size={18} className="mt-0.5 shrink-0" />
-          Your email app should open with your enquiry prepared. Please send
-          the email to complete the process.
+          Your enquiry has been sent successfully. Thank you for contacting Z Code Crafts!
         </p>
       )}
 
+      {status === "error" && (
+        <div role="alert" className="flex items-start gap-2 text-sm leading-6 text-red-700">
+          <AlertCircle size={18} className="mt-0.5 shrink-0" />
+          <span>
+            {errorMessage}{" "}
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="font-semibold underline"
+            >
+              Contact us on WhatsApp instead.
+            </a>
+          </span>
+        </div>
+      )}
+
       <p className="text-xs leading-5 text-[#85877f]">
-        This form prepares an email using your device&apos;s configured email
-        application. It does not send or store your information on the website.
+        Your enquiry is sent securely through our email service. We use your
+        details to respond to your message.
       </p>
     </form>
   );
@@ -300,15 +333,43 @@ function ContactContent() {
                 <div>
                   <h3 className="text-sm font-bold">Email enquiry</h3>
                   <p className="mt-2 text-sm leading-6 text-[#686b63]">
-                    Fill in the form and prepare an email with your project
-                    details.
+                    Send your project details directly to our inbox using the
+                    form.
                   </p>
+                  <a
+                    href="mailto:zcodecrafts@gmail.com"
+                    className="mt-2 inline-block text-sm font-semibold text-[#287747] hover:underline"
+                  >
+                    zcodecrafts@gmail.com
+                  </a>
                 </div>
               </div>
 
               <div className="mt-7 flex items-start gap-4">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#e4eddf] text-[#287747]">
                   <MessageCircle size={20} />
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold">Chat on WhatsApp</h3>
+                  <p className="mt-2 text-sm leading-6 text-[#686b63]">
+                    Prefer messaging? Contact us directly on WhatsApp Business.
+                  </p>
+                  <a
+                    href={WHATSAPP_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-3 inline-flex items-center gap-2 rounded-md bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#1fb957]"
+                  >
+                    <MessageCircle size={17} />
+                    Chat with us
+                    <ExternalLink size={14} />
+                  </a>
+                </div>
+              </div>
+
+              <div className="mt-7 flex items-start gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#e4eddf] text-[#287747]">
+                  <CheckCircle2 size={20} />
                 </div>
                 <div>
                   <h3 className="text-sm font-bold">No pressure</h3>
@@ -348,4 +409,3 @@ function ContactContent() {
     </>
   );
 }
-    

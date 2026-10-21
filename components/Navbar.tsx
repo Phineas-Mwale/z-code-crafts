@@ -15,7 +15,6 @@ const links = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const isHome = pathname === "/";
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -30,8 +29,8 @@ export default function Navbar() {
     const initialTheme =
       savedTheme === "dark" || (!savedTheme && prefersDark);
 
-    setDarkMode(initialTheme);
     document.documentElement.classList.toggle("dark", initialTheme);
+    setDarkMode(initialTheme);
     setThemeReady(true);
   }, []);
 
@@ -61,6 +60,10 @@ export default function Navbar() {
     return pathname === href || pathname.startsWith(`${href}/`);
   }
 
+  function toggleTheme() {
+    setDarkMode((current) => !current);
+  }
+
   return (
     <>
       <style jsx global>{`
@@ -71,9 +74,7 @@ export default function Navbar() {
           padding: 10px 0;
           color: #334155 !important;
           font-size: 14px;
-          transition:
-            color 180ms ease,
-            transform 180ms ease;
+          transition: color 180ms ease, transform 180ms ease;
         }
 
         .zcc-nav-link::after {
@@ -194,7 +195,7 @@ export default function Navbar() {
         }
       `}</style>
 
-      <header className="sticky top-0 z-50 border-b border-[#e6e7e0] bg-[#fafaf8]">
+      <header className="sticky top-0 z-50 border-b border-[#e6e7e0] bg-[#fafaf8] dark:border-[#262626] dark:bg-black">
         <nav
           className="container flex min-h-[76px] items-center justify-between"
           aria-label="Main navigation"
@@ -210,14 +211,15 @@ export default function Navbar() {
             </span>
 
             <span className="flex flex-col">
-              <span className="text-lg font-bold tracking-tight">ZCC</span>
-              <span className="text-[10px] tracking-[2px] text-[#686b63]">
+              <span className="text-lg font-bold tracking-tight text-[#101827] dark:text-white">
+                ZCC
+              </span>
+              <span className="text-[10px] tracking-[2px] text-[#686b63] dark:text-gray-400">
                 Z CODE CRAFTS
               </span>
             </span>
           </Link>
 
-          {/* Desktop navigation */}
           <div className="hidden items-center gap-8 md:flex">
             {links.map((link) => (
               <Link
@@ -234,38 +236,33 @@ export default function Navbar() {
               Let&apos;s talk <ArrowUpRight size={16} />
             </Link>
 
-            {/* Theme control is only shown on the homepage */}
-            {isHome && (
-              <button
-                type="button"
-                onClick={() => setDarkMode((current) => !current)}
-                disabled={!themeReady}
-                aria-label={
-                  darkMode ? "Switch to light theme" : "Switch to dark theme"
-                }
-                title={darkMode ? "Light mode" : "Dark mode"}
-                className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#dce3ee] text-[#334155] transition-all duration-200 hover:border-[#2563eb] hover:text-[#2563eb] disabled:opacity-50"
-              >
-                {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              disabled={!themeReady}
+              aria-label={
+                darkMode ? "Switch to light theme" : "Switch to dark theme"
+              }
+              title={darkMode ? "Light mode" : "Dark mode"}
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#dce3ee] text-[#334155] transition-all duration-200 hover:border-[#2563eb] hover:text-[#2563eb] disabled:opacity-50 dark:border-[#374151] dark:text-gray-200"
+            >
+              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
           </div>
 
-          {/* Compact mobile controls */}
           <div className="flex items-center gap-2 md:hidden">
-            {isHome && (
-              <button
-                type="button"
-                onClick={() => setDarkMode((current) => !current)}
-                disabled={!themeReady}
-                aria-label={
-                  darkMode ? "Switch to light theme" : "Switch to dark theme"
-                }
-                className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#dce3ee] text-[#334155] transition-colors hover:border-[#2563eb] hover:text-[#2563eb] disabled:opacity-50"
-              >
-                {darkMode ? <Sun size={19} /> : <Moon size={19} />}
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              disabled={!themeReady}
+              aria-label={
+                darkMode ? "Switch to light theme" : "Switch to dark theme"
+              }
+              title={darkMode ? "Light mode" : "Dark mode"}
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#dce3ee] text-[#334155] transition-colors hover:border-[#2563eb] hover:text-[#2563eb] disabled:opacity-50 dark:border-[#374151] dark:text-gray-200"
+            >
+              {darkMode ? <Sun size={19} /> : <Moon size={19} />}
+            </button>
 
             <button
               type="button"
@@ -276,7 +273,7 @@ export default function Navbar() {
               className={`flex h-10 w-10 items-center justify-center rounded-xl border transition-colors ${
                 menuOpen
                   ? "border-[#2563eb] bg-[#2563eb] text-white"
-                  : "border-[#dce3ee] text-[#334155] hover:border-[#2563eb] hover:text-[#2563eb]"
+                  : "border-[#dce3ee] text-[#334155] hover:border-[#2563eb] hover:text-[#2563eb] dark:border-[#374151] dark:text-gray-200"
               }`}
             >
               {menuOpen ? <X size={21} /> : <Menu size={21} />}
@@ -284,11 +281,10 @@ export default function Navbar() {
           </div>
         </nav>
 
-        {/* Simple, compact mobile menu */}
         {menuOpen && (
           <div
             id="zcc-mobile-navigation"
-            className="zcc-menu-panel border-t border-[#dce3ee] bg-[#fafaf8] md:hidden"
+            className="zcc-menu-panel border-t border-[#dce3ee] bg-[#fafaf8] dark:border-[#262626] dark:bg-black md:hidden"
           >
             <div className="container py-3">
               <p className="mb-2 text-[10px] font-bold tracking-[2px] text-[#2563eb]">
