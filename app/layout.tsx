@@ -1,5 +1,6 @@
 
 import type { Metadata } from "next";
+import Script from "next/script";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
@@ -7,6 +8,7 @@ import PageTransition from "@/components/PageTransition";
 import "./globals.css";
 
 const siteUrl = "https://zcodecrafts.dev";
+const googleAnalyticsId = "G-7YBK0Y6GH7";
 
 const siteDescription =
   "Z Code Crafts is a Zambia-based digital studio creating modern websites, web applications, graphic designs, brand identities and thoughtful digital experiences.";
@@ -91,6 +93,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
+
       <body>
         <PageLoader />
         <Navbar />
@@ -98,6 +101,21 @@ export default function RootLayout({
           <PageTransition>{children}</PageTransition>
         </main>
         <Footer />
+
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
+          strategy="afterInteractive"
+        />
+
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){window.dataLayer.push(arguments);}
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', '${googleAnalyticsId}');
+          `}
+        </Script>
       </body>
     </html>
   );
