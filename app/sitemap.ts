@@ -1,13 +1,47 @@
 
-import type { MetadataRoute } from 'next'
+import type { MetadataRoute } from "next";
+
+const siteUrl = "https://zcodecrafts.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const lastModified = new Date();
+
   return [
     {
-      url: 'https://zcodecrafts.dev',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
+      url: siteUrl,
+      lastModified,
+      changeFrequency: "monthly",
       priority: 1,
     },
-  ]
+    {
+      url: `${siteUrl}/projects`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${siteUrl}/services`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${siteUrl}/team`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${siteUrl}/resources`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${siteUrl}/contact`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.7,
+    },
+  ];
 }
