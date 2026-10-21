@@ -1,7 +1,6 @@
 
 import { NextResponse } from "next/server";
 
-export const runtime = "nodejs";
 
 const destinationEmail = "zcodecrafts@gmail.com";
 
