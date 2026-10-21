@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageLoader from "@/components/PageLoader";
+import PageTransition from "@/components/PageTransition";
 import "./globals.css";
 
 const siteUrl = "https://zcodecrafts.dev";
@@ -19,7 +20,6 @@ export const metadata: Metadata = {
   },
 
   description: siteDescription,
-
   applicationName: "Z Code Crafts",
 
   keywords: [
@@ -32,22 +32,11 @@ export const metadata: Metadata = {
     "UI UX design",
     "web applications",
     "brand identity design",
-    "digital solutions",
   ],
 
-  authors: [
-    {
-      name: "Z Code Crafts",
-      url: siteUrl,
-    },
-  ],
-
+  authors: [{ name: "Z Code Crafts", url: siteUrl }],
   creator: "Z Code Crafts",
   publisher: "Z Code Crafts",
-
-  alternates: {
-    canonical: "/",
-  },
 
   robots: {
     index: true,
@@ -91,7 +80,9 @@ export default function RootLayout({
       <body>
         <PageLoader />
         <Navbar />
-        <main>{children}</main>
+        <main>
+          <PageTransition>{children}</PageTransition>
+        </main>
         <Footer />
       </body>
     </html>
